@@ -10,7 +10,7 @@ pipeline {
             steps ("Download and test") {
                 sh '''
                     make lint && make test
-                    if [[ $? -ne 0 ]];
+                    if [ $? -ne 0 ];
                         then
                             echo "Test error"
                             exit 1
