@@ -9,22 +9,14 @@ pipeline {
         stage ("Test compile") {
             steps ("Download and test") {
                 sh '''
-                    cd /tmp
-                    wget -O go.tar.gz https://go.dev/dl/go1.16.linux-amd64.tar.gz
-                    tar xfvz go.tar.gz
-                    export PATH=$PATH:/tmp/go/bin
-                    git clone 'https://github.com/Fenikks/word-cloud-generator.git'
-                    cd word-cloud-generator
+                    
                     make lint && make test
                     if [[ $? -ne 0 ]]
                         then
                             echo "Test error"
                             exit 1
                     fi
-                    cd /tmp
-                    rm -R word-cloud-generator
-                    rm -R go
-                    rm go.tar.gz
+                    
                 '''
             }
         }
