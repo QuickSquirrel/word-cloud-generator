@@ -21,6 +21,10 @@ pipeline {
                             echo "Test error"
                             exit 1
                     fi
+                    cd /tmp
+                    rm -R word-cloud-generator
+                    rm -R go
+                    rm go.tar.gz
                 '''
             }
         }
