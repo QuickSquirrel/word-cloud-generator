@@ -1,6 +1,18 @@
 pipeline {
     agent any
     
+    environment {
+        NEXUS_URL = '192.168.56.20:8081'
+        NEXUS_CREDENTIALSID_UP = 'uploader'
+        NEXUS_CREDENTIALSID_DOWN = 'downloader'
+        NEXUS_CREDENTIALSID_DOWN_PASSW = '123'
+        STADING_IP = '192.168.56.30'
+        PRODUCTION_IP = '192.168.56.40'
+        SSH_LOGIN = 'vagrant'
+        SSH_PASSW = 'vagrant'
+        
+    }
+    
     tools {
         go 'Go 1.16'
     }
@@ -38,8 +50,8 @@ pipeline {
             steps {
                 nexusArtifactUploader (artifacts: [[artifactId: 'world-cloud-generator', 
                 classifier: '', file: 'artifacts/word-cloud-generator.gz', 
-                type: 'gz']], credentialsId: 'uploader', groupId: "$git_branch", 
-                nexusUrl: '192.168.56.20:8081', nexusVersion: 'nexus3', protocol: 'http', 
+                type: 'gz']], credentialsId: "${NEXUS_CREDENTIALSID_UP}", groupId: "$git_branch", 
+                nexusUrl: "${NEXUS_URL}", nexusVersion: 'nexus3', protocol: 'http', 
                 repository: 'world-cloud-build', version: '1.$BUILD_NUMBER')
             }
         }   
@@ -48,8 +60,8 @@ pipeline {
                 stage ("Test and install on stading") {
                     steps {
                         sh '''
-                              sshpass -p 'vagrant' ssh vagrant@192.168.56.30 -o StrictHostKeyChecking=no " cd /opt/wordcloud/
-                              sudo curl -u downloader:123 -X GET "http://192.168.56.20:8081/repository/world-cloud-build/$git_branch/world-cloud-generator/1.$BUILD_NUMBER/world-cloud-generator-1.$BUILD_NUMBER.gz" -o /opt/wordcloud/word-cloud-generator.gz
+                              sshpass -p ${SSH_PASSW} ssh ${SSH_LOGIN}@${STADING_IP} -o StrictHostKeyChecking=no " cd /opt/wordcloud/
+                              sudo curl -u ${NEXUS_CREDENTIALSID_DOWN:${NEXUS_CREDENTIALSID_DOWN_PASSW} -X GET "http://${NEXUS_URL}/repository/world-cloud-build/$git_branch/world-cloud-generator/1.$BUILD_NUMBER/world-cloud-generator-1.$BUILD_NUMBER.gz" -o /opt/wordcloud/word-cloud-generator.gz
                               if [[ $? -ne 0 ]];
                                 then
                                     echo "File not found"
@@ -66,8 +78,8 @@ pipeline {
                 stage ("Test and install on prodaction") {
                     steps {
                         sh '''
-                              sshpass -p 'vagrant' ssh vagrant@192.168.56.40 -o StrictHostKeyChecking=no " cd /opt/wordcloud/
-                              sudo curl -u downloader:123 -X GET "http://192.168.56.20:8081/repository/world-cloud-build/$git_branch/world-cloud-generator/1.$BUILD_NUMBER/world-cloud-generator-1.$BUILD_NUMBER.gz" -o /opt/wordcloud/word-cloud-generator.gz
+                              sshpass -p ${SSH_PASSW} ssh ${SSH_LOGIN}@${PRODUCTION_IP} -o StrictHostKeyChecking=no " cd /opt/wordcloud/
+                              sudo curl -u ${NEXUS_CREDENTIALSID_DOWN:${NEXUS_CREDENTIALSID_DOWN_PASSW} -X GET "http://${NEXUS_URL}/repository/world-cloud-build/$git_branch/world-cloud-generator/1.$BUILD_NUMBER/world-cloud-generator-1.$BUILD_NUMBER.gz" -o /opt/wordcloud/word-cloud-generator.gz
                               if [[ $? -ne 0 ]];
                                 then
                                     echo "File not found"
