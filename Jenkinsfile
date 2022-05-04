@@ -49,7 +49,7 @@ pipeline {
                     steps {
                         sh '''
                               sshpass -p 'vagrant' ssh vagrant@192.168.56.30 -o StrictHostKeyChecking=no " cd /opt/wordcloud/
-                              sudo wget --user="downloader" --password="123" -O /opt/wordcloud/word-cloud-generator.gz http://192.168.56.20:8081/repository/world-cloud-build/origin$git_branch/world-cloud-generator/1.$BUILD_NUMBER/world-cloud-generator-1.$BUILD_NUMBER.gz
+                              sudo wget --user="downloader" --password="123" -O /opt/wordcloud/word-cloud-generator.gz http://192.168.56.20:8081/repository/world-cloud-build/origin$git_branch/world-cloud-generator/1.$BUILD_NUMBER/world-cloud-generator-1.$BUILD_NUMBER.gz"
                               if [[ $? -ne 0 ]];
                                 then
                                     echo "File not found"
@@ -67,7 +67,7 @@ pipeline {
                     steps {
                         sh '''
                               sshpass -p 'vagrant' ssh vagrant@192.168.56.40 -o StrictHostKeyChecking=no " cd /opt/wordcloud/
-                              sudo wget --user="downloader" --password="123" -O /opt/wordcloud/word-cloud-generator.gz http://192.168.56.20:8081/repository/world-cloud-build/origin$git_branch/world-cloud-generator/1.$BUILD_NUMBER/world-cloud-generator-1.$BUILD_NUMBER.gz
+                              sudo wget --user="downloader" --password="123" -O /opt/wordcloud/word-cloud-generator.gz http://192.168.56.20:8081/repository/world-cloud-build/origin$git_branch/world-cloud-generator/1.$BUILD_NUMBER/world-cloud-generator-1.$BUILD_NUMBER.gz"
                               if [[ $? -ne 0 ]];
                                 then
                                     echo "File not found"
