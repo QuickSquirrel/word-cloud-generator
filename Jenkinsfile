@@ -6,18 +6,6 @@ pipeline {
     }
     
     stages {
-        stage ("Test compile") {
-            steps ("Download and test") {
-                sh '''
-                    make lint && make test
-                    if [ $? -ne 0 ];
-                        then
-                            echo "Test error"
-                            exit 1
-                    fi
-                '''
-            }
-        }
          stage ("Build"){
             steps{
                 sh '''export GOPATH=$WORKSPACE/go
