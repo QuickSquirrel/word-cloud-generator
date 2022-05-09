@@ -43,46 +43,7 @@ pipeline {
                 repository: 'world-cloud-build', version: '1.$BUILD_NUMBER')
             }
         }   
-        stage ("Paralleled test") {
-            parallel {
-                stage ("Test and install on stading") {
-                    steps {
-                        sh '''
-                              sshpass -p 'vagrant' ssh vagrant@192.168.56.30 -o StrictHostKeyChecking=no "cd /opt/wordcloud/
-                              sudo curl -u downloader:123 -X GET "http://192.168.56.20:8081/repository/world-cloud-build/$git_branch/world-cloud-generator/1.$BUILD_NUMBER/world-cloud-generator-1.$BUILD_NUMBER.gz" -o /opt/wordcloud/word-cloud-generator.gz
-                                                                 
-                              if [[ $? -ne 0 ]];
-                                then
-                                    echo "File not found"
-                                    exit 1
-                                else
-                                  sudo service wordcloud stop
-                                  sudo gunzip -f /opt/wordcloud/word-cloud-generator.gz
-                                  sudo chmod +x /opt/wordcloud/word-cloud-generator
-                                  sudo service wordcloud start
-                                fi"
-                           '''
-                    }
-                }
-                stage ("Test and install on prodaction") {
-                    steps {
-                        sh '''
-                              sshpass -p 'vagrant' ssh vagrant@192.168.56.40 -o StrictHostKeyChecking=no "cd /opt/wordcloud/
-                              sudo curl -u downloader:123 -X GET "http://192.168.56.20:8081/repository/world-cloud-build/$git_branch/world-cloud-generator/1.$BUILD_NUMBER/world-cloud-generator-1.$BUILD_NUMBER.gz" -o /opt/wordcloud/word-cloud-generator.gz
-                              if [[ $? -ne 0 ]];
-                                then
-                                    echo "File not found"
-                                    exit 1
-                                else
-                                  sudo service wordcloud stop
-                                  sudo gunzip -f /opt/wordcloud/word-cloud-generator.gz
-                                  sudo chmod +x /opt/wordcloud/word-cloud-generator
-                                  sudo service wordcloud start
-                                fi"
-                           '''
-                    }
-                }
-            }
+
         }
         
     }
