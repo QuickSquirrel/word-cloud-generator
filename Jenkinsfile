@@ -13,12 +13,7 @@ pipeline {
                             echo "Test error"
                             exit 1
                     fi
-                '''
-            }
-        }
-        stage ('Compile') {
-            steps {
-                sh '''export GOPATH=$WORKSPACE/go
+                export GOPATH=$WORKSPACE/go
                 export PATH="$PATH:$(go env GOPATH)/bin"               
                 go get github.com/tools/godep
                 go get github.com/smartystreets/goconvey
@@ -29,9 +24,11 @@ pipeline {
                 GOOS=linux GOARCH=amd64 go build -o ./artifacts/word-cloud-generator -v 
                 md5sum artifacts/word-cloud-generator
                 ls -l artifacts/
-                gzip -f ./artifacts/word-cloud-generator'''
+                gzip -f ./artifacts/word-cloud-generator
+                '''
             }
         }
+        
         stage ('Upload to nexus') {
             steps {
                 nexusArtifactUploader (artifacts: [[artifactId: 'word-cloud-generator', 
