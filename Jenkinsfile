@@ -2,7 +2,6 @@ pipeline {
     agent {
         dockerfile {
             filename 'dockerfile'
-            label 'build-go'
         }
     }
     stages {
