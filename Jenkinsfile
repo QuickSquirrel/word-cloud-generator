@@ -8,6 +8,9 @@ pipeline {
             steps {
                 sh 'ls -la'
             }
+            steps {
+                sh 'ls'
+            }
         }
         stage('Testing') {
             agent {
