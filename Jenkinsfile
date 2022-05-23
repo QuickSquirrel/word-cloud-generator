@@ -2,6 +2,8 @@ pipeline {
     agent {
         docker {
             image 'node:7-alpine'
+            volumes:
+            - jenkins_data:/var/lib/jenkins/workspace
         }
     }
     stages {
