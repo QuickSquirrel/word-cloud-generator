@@ -39,7 +39,7 @@ pipeline {
                 classifier: '', file: 'artifacts/word-cloud-generator.gz', 
                 type: 'gz']], credentialsId: 'uploader', groupId: "$git_branch", 
                 nexusUrl: 'nexus:8081', nexusVersion: 'nexus3', protocol: 'http', 
-                repository: 'world-cloud-build', version: '1.$BUILD_NUMBER')
+                repository: 'word-cloud-build', version: '1.$BUILD_NUMBER')
             }    
         }
     }
