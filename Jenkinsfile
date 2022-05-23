@@ -1,10 +1,10 @@
 pipeline {
-    agent {
-        dockerfile {
-            filename 'dockerfile'
-        }
-    }
+    agent none
     stages {
+        stage {
+            agent {
+                dockerfile { filename 'dockerfile' }
+            }
         stage ('Build and test') {
             steps {
                 sh '''
@@ -41,12 +41,6 @@ pipeline {
                 nexusUrl: 'nexus:8081', nexusVersion: 'nexus3', protocol: 'http', 
                 repository: 'word-cloud-build', version: '1.$BUILD_NUMBER')
             }    
-        }
-    }
-   agent {
-        dockerfile {
-            filename 'alpine/alpinedockerfile'
-            label 'alpine-go'
         }
     }
 }
