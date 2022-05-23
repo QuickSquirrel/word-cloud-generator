@@ -44,4 +44,19 @@ pipeline {
             }    
         }
     }
+    agent {
+        dockerfile {
+            filename 'alpine/alpinedockerfile'
+            label 'alpine-go'
+    }
+    stages {
+        stage ('Test and install') {
+            steps {
+                   curl -u downloader:123 -X GET "http://192.168.56.20:8081/repository/word-cloud-build/$git_branch/world-cloud-generator/1.$BUILD_NUMBER/world-cloud-generator-1.$BUILD_NUMBER.gz" -o /opt/wordcloud/word-cloud-generator.gz
+                   gunzip -f /opt/wordcloud/word-cloud-generator.gz
+                   chmod +x /opt/wordcloud/word-cloud-generator
+                   /opt/wordcloud/word-cloud-generator
+            }
+        }
+    }
 }
