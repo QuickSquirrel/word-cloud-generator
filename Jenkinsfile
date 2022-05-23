@@ -35,7 +35,7 @@ pipeline {
         }
         stage ('Upload to nexus') {
             steps {
-                nexusArtifactUploader (artifacts: [[artifactId: 'world-cloud-generator', 
+                nexusArtifactUploader (artifacts: [[artifactId: 'word-cloud-generator', 
                 classifier: '', file: 'artifacts/word-cloud-generator.gz', 
                 type: 'gz']], credentialsId: 'uploader', groupId: "$git_branch", 
                 nexusUrl: 'nexus:8081', nexusVersion: 'nexus3', protocol: 'http', 
