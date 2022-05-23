@@ -43,4 +43,10 @@ pipeline {
             }    
         }
     }
+   agent {
+        dockerfile {
+            filename 'alpine/alpinedockerfile'
+            label 'alpine-go'
+        }
+    }
 }
