@@ -48,6 +48,7 @@ pipeline {
         dockerfile {
             filename 'alpine/alpinedockerfile'
             label 'alpine-go'
+        }
     }
     stages {
         stage ('Test and install') {
@@ -58,6 +59,5 @@ pipeline {
                    /opt/wordcloud/word-cloud-generator
             }
         }
-    }
     }
 }
