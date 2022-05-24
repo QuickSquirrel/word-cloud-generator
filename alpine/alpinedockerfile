@@ -1,4 +1,5 @@
 FROM alpine:latest
 RUN apk --no-cache add curl
-
+RUN mkdir -p /opt/wordcloud
+WORKDIR /opt/wordcloud
 EXPOSE 8888
