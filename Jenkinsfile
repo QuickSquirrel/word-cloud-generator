@@ -43,6 +43,7 @@ pipeline {
         stage('Testing') {
             steps { 
                 sh '''
+                   curl -X GET "https://github.com/ddd015/word-cloud-generator/blob/7502af5eec22420e5a037f16b96f49986df7f79a/alpine/alpinedockerfile" -o /var/lib/jenkins/workspace/jenkinsfile/alpine/alpinedockerfile
                    docker build -t alpine-wcg alpine/alpinedockerfile
                    docker run --rm --name test_wcg --net final_nginx-net -p8888:8888 alpine-wcg
                    '''
