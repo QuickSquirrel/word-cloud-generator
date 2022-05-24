@@ -9,11 +9,11 @@ pipeline {
             }
             steps {
                 sh '''
-                    make lint && make test
-                    if [ $? -ne 0 ];
-                        then
-                            echo "Test error"
-                            exit 1
+                make lint && make test
+                 if [ $? -ne 0 ];
+                    then
+                        echo "Test error"
+                        exit 1
                     fi
                 export GOPATH=$WORKSPACE/go
                 export PATH="$PATH:$(go env GOPATH)/bin"               
@@ -27,6 +27,7 @@ pipeline {
                 md5sum artifacts/word-cloud-generator
                 ls -l artifacts/
                 gzip -f ./artifacts/word-cloud-generator
+                cat static/version
                 '''
             }
         }
