@@ -1,1 +1,2 @@
 FROM golang:1.16
+ENV BUILD_NUMBER
