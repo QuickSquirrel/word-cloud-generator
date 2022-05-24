@@ -41,10 +41,11 @@ pipeline {
             }
         }
         stage('Testing') {
-            agent {
-                dockerfile { filename 'alpine/alpinedockerfile' 
-                             args '-d --net final_nginx-net -p 8888:8888'
-                           }
+            steps { 
+                sh '''
+                   docker build -t alpine-wcg alpine/alpinedockerfile
+                   docker run --rm --name test_wcg --net final_nginx-net -p8888:8888 alpine-wcg
+                   '''
             }
         }
     }
