@@ -55,12 +55,11 @@ pipeline {
                      echo "File not found"
                      exit 1
                    else
-                 
                      gunzip -f /opt/wordcloud/word-cloud-generator.gz
                      chmod +x /opt/wordcloud/word-cloud-generator
                      /opt/wordcloud/word-cloud-generator &
                      sleep 180
-                     fi"
+                     fi
                 '''
             }
         }
