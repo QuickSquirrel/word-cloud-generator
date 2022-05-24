@@ -43,7 +43,7 @@ pipeline {
         stage('Testing') {
             agent {
                 dockerfile { filename 'alpine/alpinedockerfile' 
-                             args '--net final_nginx-net -p 8888:8888'
+                             args '-d --net final_nginx-net -p 8888:8888'
                            }
             }
             steps {
@@ -52,7 +52,7 @@ pipeline {
                  gunzip -f /opt/wordcloud/word-cloud-generator.gz
                  chmod +x /opt/wordcloud/word-cloud-generator
                  /opt/wordcloud/word-cloud-generator &
-                 sleep 180
+                 sleep 60
                 '''
             }
         }
