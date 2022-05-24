@@ -41,11 +41,19 @@ pipeline {
             }
         }
         stage('Testing') {
-            steps { 
+            agent {
+                dockerfile { filename 'alpine/alpinedockerfile' 
+                             args '-d --net final_nginx-net -p 8888:8888'
+                           }
+            }
+            steps {
                 sh '''
-                   docker build -t alpine-wcg alpine/dockerfile
-                   docker run --rm --name test_wcg --net final_nginx-net -p8888:8888 alpine-wcg
-                   '''
+                 curl -u downloader:123 -X GET "http://nexus:8081/repository/word-cloud-build/$git_branch/word-cloud-generator/1.$BUILD_NUMBER/word-cloud-generator-1.$BUILD_NUMBER.gz" -o /opt/wordcloud/word-cloud-generator.gz
+                 gunzip -f /opt/wordcloud/word-cloud-generator.gz
+                 chmod +x /opt/wordcloud/word-cloud-generator
+                 /opt/wordcloud/word-cloud-generator &
+                 sleep 60
+                '''
             }
         }
     }
