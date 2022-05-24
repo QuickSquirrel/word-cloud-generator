@@ -4,7 +4,7 @@ pipeline {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                             args '--net nginx-net'
+                             args '--net final_nginx-net'
                            }
             }
             steps {
@@ -43,7 +43,7 @@ pipeline {
         stage('Testing') {
             agent {
                 dockerfile { filename 'alpine/alpinedockerfile' 
-                             args '--net nginx-net -p 8888:8888'
+                             args '--net final_nginx-net -p 8888:8888'
                            }
             }
             steps {
