@@ -13,7 +13,7 @@ pipeline {
         }
         stage ('Test') {
             agent {
-                dockerfile { filename  
+                dockerfile { filename 'dockerfile'
                             additionalBuildArgs "--build-arg --net $mynet --build-arg -f dockerfile"
                            }
             }
