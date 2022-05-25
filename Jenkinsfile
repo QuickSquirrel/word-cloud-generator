@@ -15,7 +15,8 @@ pipeline {
             stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                            args '--net final_nginx-net'
+                            additionalBuildArgs '--build-arg --net "$mynet"'
+                            
                            }
             }
             }
