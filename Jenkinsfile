@@ -23,7 +23,7 @@ pipeline {
                         exit 1
                     fi
                 '''
-            }
+            
         
         }
     }
