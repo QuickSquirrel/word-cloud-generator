@@ -4,7 +4,7 @@ pipeline {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                             args '--net final_nginx-net'
+                             args '--net `docker network ls | grep nginx | cut --delimiter=' ' -f 4`'
                            }
             }
             steps {
@@ -39,7 +39,7 @@ pipeline {
         stage('Testing') {
             agent {
                 dockerfile { filename 'alpine/alpinedockerfile' 
-                             args '-d --net final_nginx-net -p 8888:8888'
+                             args '-d --net `docker network ls | grep nginx | cut --delimiter=' ' -f 4` -p 8888:8888'
                            }
             }
             steps {
