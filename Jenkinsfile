@@ -8,14 +8,13 @@ pipeline {
            steps {
               sh '''
                  mynet=`docker network ls | grep nginx | cut --delimiter=' ' -f 4`
-                 echo ${mynet} 123
               '''
            }
         }
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                            args "--net $mynet"
+                            args '--net $mynet'
                            }
             }
             steps {
