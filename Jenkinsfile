@@ -9,18 +9,15 @@ pipeline {
               sh '''
                  mynet=$(docker network ls | grep nginx | cut --delimiter=' ' -f 4)
               '''
-           
+           }
         }
-        
-            stage ('Test') {
+        stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
                             additionalBuildArgs '--build-arg --net "$mynet"'
                             
-                           }
+                }
             }
-            }
-            
         }
     }
 }
