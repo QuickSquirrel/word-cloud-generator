@@ -12,10 +12,7 @@ pipeline {
            }
         }
         stage ('Test') {
-            agent {
-                dockerfile { filename 'dockerfile'
-                            additionalBuildArgs "--build-arg --net $mynet --build-arg -f dockerfile"
-                           }
+            def testImage = docker.build("dockerfile", "--net ${mynet}")
             }
             steps {
                 sh '''
