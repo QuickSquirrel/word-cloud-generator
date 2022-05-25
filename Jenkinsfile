@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        mynet = '`docker network ls | grep nginx | cut --delimiter=' ' -f 4`'
+        mynet = sh(docker network ls | grep nginx | cut --delimiter=' ' -f 4, , returnStdout: true)
     }
     stages {
         stage ('Test') {
