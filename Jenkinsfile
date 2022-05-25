@@ -14,7 +14,7 @@ pipeline {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                            args '--net "$mynet"'
+                            args '--net $(docker network ls | grep nginx | cut --delimiter=' ' -f 4)'
                            }
             }
             steps {
