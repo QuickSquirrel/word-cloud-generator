@@ -1,4 +1,3 @@
-def mynet
 pipeline {
     agent any
     environment {
@@ -16,7 +15,7 @@ pipeline {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                            args '--net $env.mynet'
+                            args '--net $mynet'
                            }
             }
             steps {
