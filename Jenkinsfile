@@ -45,8 +45,7 @@ pipeline {
                 repository: 'word-cloud-build', version: '1.$BUILD_NUMBER')
                 '''
             }
-        }
-        }
+        
         }
     }
 }
