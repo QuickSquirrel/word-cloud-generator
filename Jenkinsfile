@@ -13,7 +13,7 @@ pipeline {
         }
         stage ('Test') {
             def testImage = docker.build("dockerfile", "--net ${mynet}")
-            }
+            
             steps {
                 sh '''
                 make lint && make test
