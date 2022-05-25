@@ -1,8 +1,7 @@
+def mynet
 pipeline {
     agent any
-    environment {
-        mynet = ' '
-    }
+    
     stages {
         stage ('Get neywork docker name') {
            steps {
