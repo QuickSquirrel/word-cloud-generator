@@ -8,6 +8,7 @@ pipeline {
            steps {
               sh '''
                  mynet=`docker network ls | grep nginx | cut --delimiter=' ' -f 4`
+                 echo $mynet + $mynet
               '''
            }
         }
