@@ -28,17 +28,12 @@ pipeline {
                 ls -l artifacts/
                 gzip -f ./artifacts/word-cloud-generator
                 cat static/version
-                '''
-            }
-        }
-        
-        stage ('Upload to nexus') {
-            steps {
                 nexusArtifactUploader (artifacts: [[artifactId: 'word-cloud-generator', 
                 classifier: '', file: 'artifacts/word-cloud-generator.gz', 
                 type: 'gz']], credentialsId: 'uploader', groupId: "$git_branch", 
                 nexusUrl: 'nexus:8081', nexusVersion: 'nexus3', protocol: 'http', 
                 repository: 'word-cloud-build', version: '1.$BUILD_NUMBER')
+                '''
             }
         }
         stage('Testing') {
