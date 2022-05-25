@@ -14,7 +14,7 @@ pipeline {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                            additionalBuildArgs '--build-arg --net "$mynet"'
+                            additionalBuildArgs "--build-arg --net $mynet -f dockerfile"
                            }
             }
             steps {
