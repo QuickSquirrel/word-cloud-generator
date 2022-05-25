@@ -7,7 +7,7 @@ pipeline {
         stage ('Get neywork docker name') {
            steps {
               sh '''
-                 mynet=`docker network ls | grep nginx | cut --delimiter=' ' -f 4`
+                 mynet=$(docker network ls | grep nginx | cut --delimiter=' ' -f 4)
               '''
            }
         }
