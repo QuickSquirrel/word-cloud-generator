@@ -53,19 +53,22 @@ pipeline {
                            }
             }
             steps {
-                sh '''
-                 curl -u downloader:123 -X GET "http://nexus:8081/repository/word-cloud-build/$git_branch/word-cloud-generator/1.$BUILD_NUMBER/word-cloud-generator-1.$BUILD_NUMBER.gz" -o /opt/wordcloud/word-cloud-generator.gz
-                 if [[ $? -ne 0 ]];
-                   then
-                     echo "File not found"
-                     exit 1
-                   else
-                     gunzip -f /opt/wordcloud/word-cloud-generator.gz
-                     chmod +x /opt/wordcloud/word-cloud-generator
-                     /opt/wordcloud/word-cloud-generator &
-                     sleep 180
-                     fi
-                '''
+                withCredentials([usernamePassword(credentialsId: 'downloader', usernameVariable: 'nexus_user', passwordVariable: 'nexus_password')])
+                {
+                  sh '''
+                   curl -u ${nexus_user}:${nexus_password} -X GET "http://nexus:8081/repository/word-cloud-build/$git_branch/word-cloud-generator/1.$BUILD_NUMBER/word-cloud-generator-1.$BUILD_NUMBER.gz" -o /opt/wordcloud/word-cloud-generator.gz
+                   if [[ $? -ne 0 ]];
+                     then
+                       echo "File not found"
+                       exit 1
+                     else
+                       gunzip -f /opt/wordcloud/word-cloud-generator.gz
+                       chmod +x /opt/wordcloud/word-cloud-generator
+                       /opt/wordcloud/word-cloud-generator &
+                       sleep 180
+                       fi
+                  '''
+                }
             }
         }
     }
