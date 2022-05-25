@@ -1,10 +1,13 @@
 pipeline {
     agent any
+    environment {
+        mynet = '`docker network ls | grep nginx | cut --delimiter=' ' -f 4`'
+    }
     stages {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                             args '--net `docker network ls | grep nginx | cut --delimiter=' ' -f 4`'
+                             args '--net mynet'
                            }
             }
             steps {
@@ -39,7 +42,7 @@ pipeline {
         stage('Testing') {
             agent {
                 dockerfile { filename 'alpine/alpinedockerfile' 
-                             args '-d --net `docker network ls | grep nginx | cut --delimiter=' ' -f 4` -p 8888:8888'
+                             args '-d --net mynet -p 8888:8888'
                            }
             }
             steps {
