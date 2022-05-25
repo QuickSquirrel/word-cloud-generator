@@ -14,7 +14,7 @@ pipeline {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                            args "--net vagrant_nginx-net"
+                            args "--net $mynet"
                            }
             }
             steps {
