@@ -17,6 +17,11 @@ pipeline {
                             additionalBuildArgs '--build-arg --net "$mynet"'
                             
                 }
+                steps {
+                    sh '''
+                     echo $mynet
+                    '''
+                }
             }
         }
     }
