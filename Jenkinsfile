@@ -1,7 +1,9 @@
 def mynet
 pipeline {
     agent any
-    
+    environment {
+        mynet = ' '
+    }
     stages {
         stage ('Get neywork docker name') {
            steps {
@@ -14,7 +16,7 @@ pipeline {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                            args '--net $mynet'
+                            args '--net $env.mynet'
                            }
             }
             steps {
