@@ -15,7 +15,7 @@ pipeline {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                            args '--net $mynet'
+                            args "--net $mynet"
                            }
             }
             steps {
