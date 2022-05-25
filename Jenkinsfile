@@ -4,13 +4,15 @@ pipeline {
         mynet = ' '
     }
     stages {
+        stage ('Get neywork docker name') {
+           steps {
+              sh '''
+                 mynet = docker network ls | grep nginx | cut --delimiter=' ' -f 4
+                 echo $mynet
+              '''
+           }
+        }
         stage ('Test') {
-            steps {
-            sh '''
-               mynet = docker network ls | grep nginx | cut --delimiter=' ' -f 4
-               echo $mynet
-            '''
-            }
             agent {
                 dockerfile { filename 'dockerfile' 
                              args '--net $mynet'
