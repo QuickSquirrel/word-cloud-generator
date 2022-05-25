@@ -15,7 +15,7 @@ pipeline {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                             args '--net $mynet'
+                            args '--net ${mynet}'
                            }
             }
             steps {
@@ -50,7 +50,7 @@ pipeline {
         stage('Testing') {
             agent {
                 dockerfile { filename 'alpine/alpinedockerfile' 
-                             args '-d --net $mynet -p 8888:8888'
+                            args '-d --net ${mynet} -p 8888:8888'
                            }
             }
             steps {
