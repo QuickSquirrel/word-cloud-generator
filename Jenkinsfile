@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        mynet 
+        mynet = ' '
     }
     stages {
         stage ('Test') {
