@@ -14,7 +14,7 @@ pipeline {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                            args '--net final_default'
+                            args '--net final_nginx-net'
                            }
             }
             steps {
@@ -38,14 +38,17 @@ pipeline {
                 ls -l artifacts/
                 gzip -f ./artifacts/word-cloud-generator
                 cat static/version
-                nexusArtifactUploader artifacts: [[artifactId: 'word-cloud-generator', classifier: '', file: 'artifacts/word-cloud-generator.gz', type: 'gz']], credentialsId: 'uploader', groupId: "$git_branch", nexusUrl: 'nexus:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'word-cloud-build', version: '1.$BUILD_NUMBER'
+                
                 '''
             }
+        }
+        stage ('nexus') {
+            steps { nexusArtifactUploader artifacts: [[artifactId: 'word-cloud-generator', classifier: '', file: 'artifacts/word-cloud-generator.gz', type: 'gz']], credentialsId: 'uploader', groupId: "$git_branch", nexusUrl: 'nexus:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'word-cloud-build', version: '1.$BUILD_NUMBER' }
         }
         stage('Testing') {
             agent {
                 dockerfile { filename 'alpine/alpinedockerfile' 
-                            args "-d --net final_default -p 8888:8888"
+                            args "-d --net nginx-net -p 8888:8888"
                            }
             }
             steps {
