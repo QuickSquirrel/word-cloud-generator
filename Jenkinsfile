@@ -14,7 +14,7 @@ pipeline {
         stage ('Test') {
             agent {
                 dockerfile { filename 'dockerfile' 
-                            args '--net=host'
+                            args '--network host'
                            }
             }
             steps {
@@ -45,7 +45,7 @@ pipeline {
         stage('Testing') {
             agent {
                 dockerfile { filename 'alpine/alpinedockerfile' 
-                            args "-d --net=host -p 8888:8888"
+                            args "-d --network host -p 8888:8888"
                            }
             }
             steps {
