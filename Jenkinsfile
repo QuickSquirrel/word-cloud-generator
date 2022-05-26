@@ -48,7 +48,7 @@ pipeline {
         stage('Testing') {
             agent {
                 dockerfile { filename 'alpine/alpinedockerfile' 
-                            args "-d --net nginx-net -p 8888:8888"
+                            args "-d --net final_nginx-net -p 8888:8888"
                            }
             }
             steps {
