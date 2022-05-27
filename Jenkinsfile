@@ -51,6 +51,7 @@ pipeline {
                        gunzip -f /opt/wordcloud/word-cloud-generator.gz
                        chmod +x /opt/wordcloud/word-cloud-generator
                        /opt/wordcloud/word-cloud-generator &
+                       sleep 60
                        res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://192.168.56.140:8888/version | jq '. | length'`
                        if [[ "1" != "$res" ]]; then 
                           exit 98
@@ -61,6 +62,7 @@ pipeline {
                        fi
                        sleep 180
                    fi
+                   
                   '''
                 }
             }
