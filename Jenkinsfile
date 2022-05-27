@@ -60,7 +60,7 @@ pipeline {
                        if [[ "7" != "$res" ]]; then
                           exit 99
                        fi
-                       sleep 60
+                       sleep 90
                    fi
                    
                   '''
