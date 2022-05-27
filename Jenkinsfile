@@ -53,7 +53,7 @@ pipeline {
                        /opt/wordcloud/word-cloud-generator &
                        res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://localhost:8888/version | jq '. | length'`
                        if [[ "1" != "$res" ]]; then 
-                          exit 99
+                          exit 98
                        fi
                        res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://localhost:8888/api | jq '. | length'`
                        if [[ "7" != "$res" ]]; then
