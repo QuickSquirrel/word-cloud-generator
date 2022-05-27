@@ -35,7 +35,7 @@ pipeline {
         stage('Testing') {
             agent {
                 dockerfile { filename 'alpine/alpinedockerfile' 
-                            args "-d --network host -p 8888:8888"
+                            args '-d --network host'
                            }
             }
             steps {
@@ -51,8 +51,14 @@ pipeline {
                        gunzip -f /opt/wordcloud/word-cloud-generator.gz
                        chmod +x /opt/wordcloud/word-cloud-generator
                        /opt/wordcloud/word-cloud-generator &
-                       
-
+                       res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://127.0.0.1:8888/version | jq '. | length'`
+                       if [[ "1" != "$res" ]]; then 
+                          exit 98
+                       fi
+                       res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://127.0.0.1:8888/api | jq '. | length'`
+                       if [[ "7" != "$res" ]]; then
+                          exit 99
+                       fi
                        sleep 180
                    fi
                   '''
