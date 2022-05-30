@@ -3,9 +3,10 @@ pipeline {
     stages {
         stage ('Test') {
             agent {
-                dockerfile { filename 'dockerfile' 
-                            args '--network host'
-                           }
+                dockerfile { 
+                    filename 'dockerfile' 
+                    args '--network host'
+               }
             }
             steps {
                 sh '''
@@ -29,17 +30,34 @@ pipeline {
                 gzip -f ./artifacts/word-cloud-generator
                 cat static/version
                 '''
-                nexusArtifactUploader artifacts: [[artifactId: 'word-cloud-generator', classifier: '', file: 'artifacts/word-cloud-generator.gz', type: 'gz']], credentialsId: 'uploader', groupId: "$git_branch", nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'word-cloud-build', version: '1.$BUILD_NUMBER'
+                nexusArtifactUploader 
+                  artifacts: [[
+                    artifactId: 'word-cloud-generator', 
+                    classifier: '', file: 'artifacts/word-cloud-generator.gz', 
+                    type: 'gz']], 
+                  credentialsId: 'uploader', 
+                  groupId: "$git_branch", 
+                  nexusUrl: 'localhost:8081', 
+                  nexusVersion: 'nexus3', 
+                  protocol: 'http', 
+                  repository: 'word-cloud-build', 
+                  version: '1.$BUILD_NUMBER'
             }
         }
         stage('Testing') {
             agent {
-                dockerfile { filename 'alpine/alpinedockerfile' 
-                            args '--network host'
-                           }
+                dockerfile { 
+                    filename 'alpine/alpinedockerfile' 
+                    args '--network host'
+               }
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'downloader', usernameVariable: 'nexus_user', passwordVariable: 'nexus_password')])
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'downloader', 
+                        usernameVariable: 'nexus_user', 
+                        passwordVariable: 'nexus_password'
+                    )])
                 {
                   sh '''
                    curl -u ${nexus_user}:${nexus_password} -X GET "http://localhost:8081/repository/word-cloud-build/$git_branch/word-cloud-generator/1.$BUILD_NUMBER/word-cloud-generator-1.$BUILD_NUMBER.gz" -o /opt/wordcloud/word-cloud-generator.gz
